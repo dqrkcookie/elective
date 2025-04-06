@@ -49,7 +49,6 @@ class MainWindow(QMainWindow):
         # box for plotting statistics
         self.figure = plt.Figure(figsize=(8, 3.5), dpi=90)
         self.canvas = FigureCanvas(self.figure)
-
         layout.addWidget(self.canvas, 0, 1, 8, 1)
 
         # buttons + their corresponding statistical functions
@@ -86,14 +85,16 @@ class MainWindow(QMainWindow):
     def calculate_mean(self):
         nums = self.get_numbers()
         if nums:
+            joined_nums = " + ".join(str(i) for i in nums)
             total = sum(nums)
             count = len(nums)
             mean_value = total / count
             
             steps = "<font style='font-weight: 600; color: green;'>Solution:</font><br><br>"
             steps += "Mean = ∑xᵢ / n<br><br>"
+            steps += f"Mean = {joined_nums} / {count}<br><br>"
             steps += f"Mean = {total} / {count}<br><br>"
-            steps += f"<span style='background-color: lightgreen; color: black;'>Mean = {mean_value:.2f}</span>" if mean_value != int(mean_value) else f"<span style='background-color: lightgreen; color: black;'>Mean = {int(mean_value)}</span>"
+            steps += f"<span style='background-color: lightgreen; color: black;'>| Mean = {mean_value:.2f} |</span>" if mean_value != int(mean_value) else f"<span style='background-color: lightgreen; color: black;'>| Mean = {int(mean_value)} |</span>"
             
             self.result_label.setText(steps)
             self.plot_statistics(nums, mean_value)
@@ -116,7 +117,7 @@ class MainWindow(QMainWindow):
                 median = nums[mid]
                 steps += f"Median = {median}<br><br>"
             
-            steps += f"<span style='background-color: lightgreen; color: black;'>Median = {median:.2f}</span>"
+            steps += f"<span style='background-color: lightgreen; color: black;'>| Median = {median} |</span>"
             self.result_label.setText(steps)
             self.plot_statistics(nums, None, median)
 
@@ -139,7 +140,7 @@ class MainWindow(QMainWindow):
                 steps += "All values appear equally often (no mode)"
             else:
                 modes_str = [f"{mode}" if mode == int(mode) else f"{mode:.2f}" for mode in modes]
-                steps += f"<span style='background-color: lightgreen; color: black;'>Mode = {', '.join(modes_str)}</span>"
+                steps += f"<span style='background-color: lightgreen; color: black;'>| Mode = {', '.join(modes_str)} |</span>"
             
             self.result_label.setText(steps)
             self.plot_statistics(nums, None, None, modes)
@@ -155,7 +156,7 @@ class MainWindow(QMainWindow):
             steps = "<font style='font-weight: 600; color: green;'>Solution:</font><br><br>"
             steps += "Range = Max value - Min value<br><br>"
             steps += f"Range = {largest} - {smallest}<br><br>"
-            steps += f"<span style='background-color: lightgreen; color: black;'>Range = {range_value}</span>"
+            steps += f"<span style='background-color: lightgreen; color: black;'>| Range = {range_value} |</span>"
             
             self.result_label.setText(steps)
             self.plot_statistics(nums, None, None, None, range_value)
@@ -177,7 +178,7 @@ class MainWindow(QMainWindow):
                 steps += f"(x{i+1} - μ)² = ({x:.2f} - {mean:.2f})² = {(x - mean) ** 2:.2f}<br>"
             steps += f"<br>∑(xᵢ - μ)² = {sum_squared_diffs:.2f}<br><br>"
             steps += f"Variance = {sum_squared_diffs:.2f} / {len(nums)} = {variance:.2f}<br><br>"
-            steps += f"<span style='background-color: lightgreen; color: black;'>Variance = {variance:.2f}</span>"
+            steps += f"<span style='background-color: lightgreen; color: black;'>| Variance = {variance:.2f} |</span>"
             
             self.result_label.setText(steps)
             self.plot_variance(squared_diffs, mean)
@@ -201,7 +202,7 @@ class MainWindow(QMainWindow):
             
             steps += f"<br>∑(xᵢ - μ)² = {sum_squared_diffs:.2f}<br><br>"
             steps += f"Variance = {sum_squared_diffs:.2f} / {len(nums)} = {variance:.2f}<br><br>"
-            steps += f"<span style='background-color: lightgreen; color: black;'>Standard Deviation = √{variance:.2f} = {std_dev:.2f}</span>"
+            steps += f"<span style='background-color: lightgreen; color: black;'>| Standard Deviation = √{variance:.2f} = {std_dev:.2f} |</span>"
             
             self.result_label.setText(steps)
             self.plot_standard_deviation(nums, mean, std_dev)
@@ -210,26 +211,27 @@ class MainWindow(QMainWindow):
     def plot_statistics(self, nums, mean=None, median=None, modes=None, range_value=None, variance=None, std_dev=None):
         self.figure.clear()
         self.figure.subplots_adjust(left=0.1, right=0.9, top=0.85, bottom=0.15, hspace=0.4)
-        ax = self.figure.add_subplot(111)
-        ax.plot(nums, 'bo', label="Data points")
-         
+        ax = self.figure.add_subplot(111)     
+        ax.plot(nums, c='gray', label='Dataset')
+
         # plotting datasets
         if mean is not None:
-            ax.plot([0, len(nums) - 1], [mean, mean], color='green', linestyle='--', label=f'Mean: {mean:.2f}', linewidth=2)
+            ax.plot([0, len(nums) - 1], [mean, mean], c='green', linestyle='--', label=f'Mean: {mean:.2f}', linewidth=2)
 
         if median is not None:
-            ax.plot([0, len(nums) - 1], [median, median], color='orange', linestyle='--', label=f'Median: {median:.2f}', linewidth=2)
+            ax.plot([0, len(nums) - 1], [median, median], c='green', linestyle='--', label=f'Median: {median:.2f}', linewidth=2)
 
         if modes is not None:
             for mode in modes:
-                ax.plot([0, len(nums) - 1], [mode, mode], color='cyan', linestyle='--', label=f'Mode: {mode}', linewidth=2)
+                ax.plot([0, len(nums) - 1], [mode, mode], c='green', linestyle='--', label=f'Mode: {mode}', linewidth=2)
 
         if range_value is not None:
-            ax.plot([0, len(nums) - 1], [min(nums), min(nums)], color='magenta', linestyle='--', label=f'Min: {min(nums)}', linewidth=2)
-            ax.plot([0, len(nums) - 1], [max(nums), max(nums)], color='magenta', linestyle='--', label=f'Max: {max(nums)}', linewidth=2)
+            ax.plot([0, len(nums) - 1], [range_value, range_value], c='blue', linestyle='-', label=f'Range: {range_value}', linewidth=2, alpha=0.5)
+            ax.plot([0, len(nums) - 1], [min(nums), min(nums)], c='green', linestyle='--', label=f'Min: {min(nums)}', linewidth=2)
+            ax.plot([0, len(nums) - 1], [max(nums), max(nums)], c='green', linestyle='--', label=f'Max: {max(nums)}', linewidth=2)
 
         ax.set_title("Statistical Visualization")
-        ax.set_xlabel("Index")
+        ax.set_xlabel("Data Index")
         ax.set_ylabel("Value")
 
         ax.legend(loc='upper right')
@@ -240,32 +242,25 @@ class MainWindow(QMainWindow):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
 
-        # plot ±1 standard deviation lines and shaded area
-        ax.axvline(x=mean + std_dev, color='purple', linestyle=':', linewidth=1, 
-                    label=f'+1σ: {mean + std_dev:.2f}')
-        ax.axvline(x=mean - std_dev, color='purple', linestyle=':', linewidth=1,
-                    label=f'-1σ: {mean - std_dev:.2f}')
+        # plot mean and ±1σ lines with shaded area
+        ax.axvline(mean, color='green', linestyle='--', linewidth=2, label=f'Mean: {mean:.2f}')
+        for offset, label in [(std_dev, '+1σ'), (-std_dev, '-1σ')]:
+            ax.axvline(mean + offset, color='darkgreen', linestyle=':', linewidth=1, label=f'{label}: {mean + offset:.2f}')
         ax.axvspan(mean - std_dev, mean + std_dev, alpha=0.3, color='blue', label='±1σ (68%)')
 
-        # plot the mean line and normal distribution curve
-        ax.axvline(x=mean, color='green', linestyle='--', linewidth=2, label=f'Mean: {mean:.2f}')
+        # bell curve
         ax2 = ax.twinx()
         x = np.linspace(min(nums) - 2 * std_dev, max(nums) + 2 * std_dev, 1000)
         y = norm.pdf(x, mean, std_dev)
-        ax2.plot(x, y, 'r-', linewidth=2, label='Normal Distribution')
-        ax2.fill_between(x, y, alpha=0.2, color='red')
+        ax2.plot(x, y, 'y-', linewidth=2, label='Bell Curve')
+        ax2.fill_between(x, y, alpha=0.2, color='gray')
 
         ax.set_title("Statistical Visualization")
         ax.set_xlabel("Value")
-
-        # remove L y-axis labels
-        ax.set_ylabel('')  
-        ax.set_yticklabels([]) 
-        ax.set_yticks([]) 
-        # remove R y-axis labels
-        ax2.set_ylabel('') 
-        ax2.set_yticklabels([])  
-        ax2.set_yticks([]) 
+        for axis in (ax, ax2):
+            axis.set_ylabel('')
+            axis.set_yticks([])
+            axis.set_yticklabels([])
 
         lines, labels = ax.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
@@ -277,14 +272,14 @@ class MainWindow(QMainWindow):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
 
-        ax.bar(range(len(squared_diffs)), squared_diffs, color='orange', alpha=0.7, label='Squared Differences')
+        ax.bar(range(len(squared_diffs)), squared_diffs, color='gray', alpha=0.7, label='Squared Differences')
         ax.axhline(mean, color='g', linestyle='--', label=f'Mean: {mean:.2f}', linewidth=2)
 
         ax.set_title("Statistical Visualization")
         ax.set_xlabel("Data Index")
         ax.set_ylabel("Squared Difference Value")
         ax.legend()
-
+        
         self.canvas.draw()
 
 def main():
