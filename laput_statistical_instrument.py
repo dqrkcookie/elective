@@ -3,7 +3,7 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QLabel, QLineEdit,
-    QPushButton, QGridLayout, QWidget, QMessageBox
+    QPushButton, QGridLayout, QWidget, QMessageBox, QRadioButton
 )
 from PyQt5.QtGui import QFont
 from collections import Counter
@@ -38,18 +38,23 @@ class MainWindow(QMainWindow):
         """)
         layout.addWidget(self.input_field, 0, 0)
 
+        self.radio_button1 = QRadioButton("Population (For variance and standard deviation)")
+        self.radio_button2 = QRadioButton("Sample (For variance and standard deviation)")
+        layout.addWidget(self.radio_button1, 1, 0)
+        layout.addWidget(self.radio_button2, 2, 0)
+
         self.result_label = QLabel("Result will appear here 😃")
         self.result_label.setAlignment(Qt.AlignCenter)
         self.result_label.setContentsMargins(20, 15, 20, 15)
         self.result_label.setFont(QFont("Consolas", 11))
         self.result_label.setStyleSheet("color: white; background-color: black; border: 2px solid gray")
         self.result_label.setWordWrap(True)
-        layout.addWidget(self.result_label, 1, 0)
+        layout.addWidget(self.result_label, 3, 0)
 
         # box for plotting statistics
         self.figure = plt.Figure(figsize=(8, 3.5), dpi=90)
         self.canvas = FigureCanvas(self.figure)
-        layout.addWidget(self.canvas, 0, 1, 8, 1)
+        layout.addWidget(self.canvas, 0, 1, 10, 1)
 
         # buttons + their corresponding statistical functions
         buttons = {
@@ -61,7 +66,7 @@ class MainWindow(QMainWindow):
             "Standard Deviation": self.calculate_std_dev
         }
 
-        num = 2;     
+        num = 4;     
         for label, function in buttons.items():
             button = QPushButton(f"Calculate {label}")
             button.clicked.connect(function)
@@ -168,18 +173,32 @@ class MainWindow(QMainWindow):
             mean = sum(nums) / len(nums)
             squared_diffs = [(x - mean) ** 2 for x in nums]
             sum_squared_diffs = sum(squared_diffs)
-            variance = sum_squared_diffs / len(nums)
-            
+
+            if self.radio_button1.isChecked():  
+                variance = sum_squared_diffs / len(nums)
+                formula_label = "Population Variance = ∑(xᵢ - μ)² / n"
+                divisor = f"{len(nums)}"
+            elif self.radio_button2.isChecked(): 
+                if len(nums) < 2:
+                    self.result_label.setText("<font color='red'>Sample variance requires at least 2 data points.</font>")
+                    return
+                variance = sum_squared_diffs / (len(nums) - 1)
+                formula_label = "Sample Variance = ∑(xᵢ - x̄)² / (n - 1)"
+                divisor = f"{len(nums)} - 1"
+            else:
+                self.result_label.setText("<font color='red'>Please select Population or Sample.</font>")
+                return
+
             steps = "<font style='font-weight: 600; color: green;'>Solution:</font><br><br>"
-            steps += "Variance = ∑(xᵢ - μ)² / n<br><br>"
-            steps += f"μ = {mean:.2f}<br><br>"
+            steps += formula_label + "<br><br>"
+            steps += f"Mean = {mean:.2f}<br><br>"
             steps += "Squared differences:<br>"
             for i, x in enumerate(nums):
-                steps += f"(x{i+1} - μ)² = ({x:.2f} - {mean:.2f})² = {(x - mean) ** 2:.2f}<br>"
-            steps += f"<br>∑(xᵢ - μ)² = {sum_squared_diffs:.2f}<br><br>"
-            steps += f"Variance = {sum_squared_diffs:.2f} / {len(nums)} = {variance:.2f}<br><br>"
+                steps += f"(x{i+1} - x̄)² = ({x:.2f} - {mean:.2f})² = {(x - mean) ** 2:.2f}<br>"
+            steps += f"<br>∑(xᵢ - x̄)² = {sum_squared_diffs:.2f}<br><br>"
+            steps += f"Variance = {sum_squared_diffs:.2f} / {divisor} = {variance:.2f}<br><br>"
             steps += f"<span style='background-color: lightgreen; color: black;'>| Variance = {variance:.2f} |</span>"
-            
+
             self.result_label.setText(steps)
             self.plot_variance(squared_diffs, mean)
 
@@ -190,20 +209,34 @@ class MainWindow(QMainWindow):
             mean = sum(nums) / len(nums)
             squared_diffs = [(x - mean) ** 2 for x in nums]
             sum_squared_diffs = sum(squared_diffs)
-            variance = sum_squared_diffs / len(nums)
+
+            if self.radio_button1.isChecked():  
+                variance = sum_squared_diffs / len(nums)
+                label = "Population Standard Deviation = √(∑(xᵢ - μ)² / n)"
+                divisor = f"{len(nums)}"
+            elif self.radio_button2.isChecked():
+                if len(nums) < 2:
+                    self.result_label.setText("<font color='red'>Sample standard deviation requires at least 2 data points.</font>")
+                    return
+                variance = sum_squared_diffs / (len(nums) - 1)
+                label = "Sample Standard Deviation = √(∑(xᵢ - x̄)² / (n - 1))"
+                divisor = f"{len(nums)} - 1"
+            else:
+                self.result_label.setText("<font color='red'>Please select Population or Sample.</font>")
+                return
+
             std_dev = math.sqrt(variance)
-            
+
             steps = "<font style='font-weight: 600; color: green;'>Solution:</font><br><br>"
-            steps += "Standard Deviation = √Variance<br><br>"
-            steps += f"μ = {mean:.2f}<br><br>"
+            steps += label + "<br><br>"
+            steps += f"Mean = {mean:.2f}<br><br>"
             steps += "Squared differences:<br>"
             for i, x in enumerate(nums):
-                steps += f"(x{i+1} - μ)² = ({x:.2f} - {mean:.2f})² = {(x - mean) ** 2:.2f}<br>"
-            
-            steps += f"<br>∑(xᵢ - μ)² = {sum_squared_diffs:.2f}<br><br>"
-            steps += f"Variance = {sum_squared_diffs:.2f} / {len(nums)} = {variance:.2f}<br><br>"
+                steps += f"(x{i+1} - x̄)² = ({x:.2f} - {mean:.2f})² = {(x - mean) ** 2:.2f}<br>"
+            steps += f"<br>∑(xᵢ - x̄)² = {sum_squared_diffs:.2f}<br><br>"
+            steps += f"Variance = {sum_squared_diffs:.2f} / {divisor} = {variance:.2f}<br><br>"
             steps += f"<span style='background-color: lightgreen; color: black;'>| Standard Deviation = √{variance:.2f} = {std_dev:.2f} |</span>"
-            
+
             self.result_label.setText(steps)
             self.plot_standard_deviation(nums, mean, std_dev)
 
