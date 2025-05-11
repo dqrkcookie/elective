@@ -14,19 +14,22 @@ $concerns = $query->fetchAll();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Planner - Seat and Guest Management</title>
   <style>
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      margin: 0; 
-      background-color: #f4f4f4; /* Lighter background */
-      color: #333; /* Lighter text color */
-    }
-    header { 
-      background-color: #444; 
-      color: #fff; 
-      padding: 1.5em 0; 
-      text-align: center; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
+    body { font-family: sans-serif; margin: 0; background-color:rgb(147, 92, 250) ; color: #333; }
+        header { background-color: #6f42c1; color: #fff; padding: 2em 0; text-align: center; }
+        nav ul { list-style-type: none; padding: 0; text-align: center; background-color: #5a379e; }
+        nav ul li { display: inline; margin-right: 20px; }
+        nav ul li a { text-decoration: none; color: #fff; padding: 15px 20px; display: inline-block; }
+        nav ul li a:hover { background-color: #4a2d82; }
+        .container { padding: 20px; }
+        .breadcrumb { margin-bottom: 20px; }
+        .breadcrumb a { text-decoration: none; color: #007bff; }
+        .tool-section { background-color: #fff; margin-bottom: 20px; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .tool-section h2 { color: #6f42c1; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: #fff; margin-top: 30px; }
+    
+    
+    
+    
     .container { 
       max-width: 1200px;
       margin: 0 auto;
