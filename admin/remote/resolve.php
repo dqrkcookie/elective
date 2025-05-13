@@ -2,7 +2,12 @@
 
 require_once ('../../config/conn.php');
 
-if(isset($_GET['id'])){
+if(isset($_GET['assist'])){
+    header("Location: ../chat/chat.php?email=".$_GET['email']);
+    exit();
+}
+
+if(isset($_GET['resolve'])){
     $id = $_GET['id'] ?? '';
     $table_name = $_GET['table_name'] ?? '';
     $file_name = $_GET['file_name'] ?? '';
@@ -13,9 +18,9 @@ if(isset($_GET['id'])){
         exit();
     }
 
-    $stmt = $pdo->prepare("DELETE FROM $table_name WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE $table_name SET status = 'Closed' WHERE id = ?");
     if($stmt->execute([$id])){
-        echo "<script>alert('Deleted successfully!'); window.location.replace('../$file_name');</script>";
+        echo "<script>alert('Ticket Closed.'); window.location.replace('../$file_name');</script>";
     }else{
         echo "<script>alert('There was an error deleting the concern. Please try again later.'); window.history.back();</script>";
     }

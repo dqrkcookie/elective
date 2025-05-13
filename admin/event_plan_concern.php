@@ -113,12 +113,17 @@ $concerns = $query->fetchAll();
     .seat { width: 40px; height: 40px; }
     .table { width: 90px; height: 100px; }
 
+    .selected {
+      background-color: #e74c3c;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
+    
     th, td {
       padding: 12px 15px;
       text-align: left;
@@ -244,6 +249,24 @@ $concerns = $query->fetchAll();
 <footer>
   <p>&copy; 2025 Your Company Name. All rights reserved.</p>
 </footer>
+
+<script>
+  const seats = document.querySelectorAll('.seat');
+  const tables = document.querySelectorAll('.table');
+
+  seats.forEach((seat) => {
+      seat.addEventListener('click', () => {
+          seat.classList.toggle('selected');
+      });
+  });
+
+  tables.forEach((table) => {
+      table.addEventListener('click', () => {
+          table.classList.toggle('selected');
+      });
+  });
+
+</script>
 
 </body>
 </html>

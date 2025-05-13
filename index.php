@@ -122,6 +122,7 @@
         <li><a href="client/submit_seat_plan_concern.php">Submit a Seat Plan Concern</a></li>
         <li><a href="client/submit_table_concern.php">Submit a Table Plan Concern</a></li>
         <li><a href="client/submit_event_concern.php">Submit an Event Concern</a></li>
+        <li><a href="client/chat/chat.php">Chat with and Agent</a></li>
       </ul>
     </div>
   </div>
