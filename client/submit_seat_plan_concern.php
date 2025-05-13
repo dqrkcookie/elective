@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Seat Plan Concern - Customer Support</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; color: #333; padding-bottom: 60px; }
+      <style>
+        body { font-family: sans-serif; margin: 0; background-color:rgb(22, 199, 226); color: #333; padding-bottom: 60px; }
         header { background-color: #17a2b8; color: #fff; padding: 1em 0; text-align: center; }
         .container { padding: 20px; max-width: 800px; margin: auto; }
         .breadcrumb { margin-bottom: 20px; }

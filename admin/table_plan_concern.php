@@ -16,117 +16,23 @@ $concerns = $query->fetchAll();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Table Plan Concern - Customer Support</title>
   <style>
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      margin: 0; 
-      background-color: #f1f1f1; 
-      color: #333; 
-    }
-    header { 
-      background-color: #222; 
-      color: #fff; 
-      padding: 1.5em 0; 
-      text-align: center; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .container { 
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px; 
-    }
-    .breadcrumb { 
-      margin-bottom: 20px; 
-      padding: 10px;
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .breadcrumb a { 
-      text-decoration: none; 
-      color: #555; 
-      transition: color 0.3s;
-    }
-    .breadcrumb a:hover {
-      color: #000;
-    }
-    .content-area { 
-      background-color: #fff; 
-      padding: 25px; 
-      border-radius: 6px; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-    }
-    h1 {
-      margin: 0;
-      font-weight: 400;
-    }
-    h2 {
-      color: #222;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 10px;
-      margin-top: 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #333;
-      color: #fff;
-      font-weight: 500;
-    }
-    tr:nth-child(even) {
-      background-color: #f8f8f8;
-    }
-    tr:hover {
-      background-color: #eee;
-      transition: background-color 0.2s;
-    }
-    
-    button {
-      background-color: #444;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #222;
-    }
-
-    footer { 
-      text-align: center; 
-      padding: 20px; 
-      background-color: #222; 
-      color: #ccc; 
-      margin-top: 30px; 
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .container {
-        padding: 10px;
-      }
-      .content-area {
-        padding: 15px;
-      }
-      table {
-        font-size: 14px;
-      }
-      th, td {
-        padding: 8px;
-      }
-    }
-  </style>
+        body { font-family: sans-serif; margin: 0; background-color:rgb(18, 198, 60); color: #333; padding-bottom: 60px; }
+        header { background-color: #28a745; color: #fff; padding: 1em 0; text-align: center; }
+        .container { padding: 20px; max-width: 800px; margin: auto; }
+        .breadcrumb { margin-bottom: 20px; }
+        .breadcrumb a { text-decoration: none; color: #007bff; }
+        .form-area { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .form-area h2 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-group button { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .form-group button:hover { background-color: #1e7e34; }
+        footer { text-align: center; padding: 20px; background-color: #333; color: #fff; position: fixed; bottom: 0; width: 100%; }
+    </style>
 </head>
 <body>
 

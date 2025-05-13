@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Table Plan Concern - Customer Support</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; color: #333; padding-bottom: 60px; }
+        body { font-family: sans-serif; margin: 0; background-color:rgb(18, 198, 60); color: #333; padding-bottom: 60px; }
         header { background-color: #28a745; color: #fff; padding: 1em 0; text-align: center; }
         .container { padding: 20px; max-width: 800px; margin: auto; }
         .breadcrumb { margin-bottom: 20px; }
